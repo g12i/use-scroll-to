@@ -25,7 +25,9 @@
   },
   "keywords": [
     "react",
-    "scroll"
+    "scroll",
+    "useScroll",
+    "useScrollTo"
   ],
   "author": "Wojciech Grzebieniowski <grzebieniowski@gmail.com>",
   "license": "ISC",
