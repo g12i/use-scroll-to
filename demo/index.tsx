@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
-import "./style.css";
-import { useScrollTo, bezier } from "../lib/useScrollTo";
 import type { EasingFunction } from "../lib/useScrollTo";
-
-console.log(React);
+import { bezier, useScrollTo } from "../lib/useScrollTo";
+import "./style.css";
 
 type EasingState = {
   fn: EasingFunction;
