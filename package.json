@@ -3,7 +3,9 @@
   "version": "1.0.0-rc.5",
   "description": "Scroll to React elements with custom timing function support",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
