@@ -1,6 +1,6 @@
 {
   "name": "use-scroll-to-2",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Scroll to React elements with custom timing function support",
   "files": [
     "dist",
