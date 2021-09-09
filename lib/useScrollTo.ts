@@ -28,9 +28,9 @@ const animationLoop = (next: () => NextState) => {
 };
 
 export type AnimationOptions = {
-  delay?: number;
+  delay: number;
   duration: number;
-  easing?: EasingFunction;
+  easing: EasingFunction;
 };
 
 const animate = (
@@ -38,7 +38,7 @@ const animate = (
   opts: AnimationOptions
 ) => {
   const start = Date.now();
-  const { duration, delay = 0, easing = bezier(0.25, 0.1, 0.25, 1) } = opts;
+  const { duration, delay, easing } = opts;
 
   animationLoop(() => {
     const now = Date.now();
@@ -69,16 +69,16 @@ function lift<T, R>(value: T | ((arg: R) => T)) {
 }
 
 export function useScrollTo<T extends HTMLElement>(
-  opts: HookOptions & AnimationOptions
+  opts?: HookOptions & Partial<AnimationOptions>
 ): [RefObject<T>, () => void] {
   const {
     auto = false,
-    delay,
-    duration,
-    easing,
+    delay = 0,
+    duration = 480,
+    easing = bezier(0.25, 0.1, 0.25, 1),
     offsetLeft = 0,
     offsetTop = 0,
-  } = opts;
+  } = opts ?? {};
   const ref = useRef<T>(null);
   const getOffsetTop = useMemo(() => lift(offsetTop), [offsetTop]);
   const getOffsetLeft = useMemo(() => lift(offsetLeft), [offsetLeft]);
