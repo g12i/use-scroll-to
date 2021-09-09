@@ -2,6 +2,10 @@
 
 Scroll to React elements with custom timing function support.
 
+## Demo
+
+[See here](https://g12i.github.io/use-scroll-to/).
+
 ## Quick start
 
 ```bash

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
-import type { EasingFunction } from "../lib/useScrollTo";
 import { bezier, useScrollTo } from "../lib/useScrollTo";
 import "./style.css";
 
 type EasingState = {
-  fn: EasingFunction;
+  fn: bezier.EasingFunction;
 };
 
 const exampleEasing = {
@@ -46,26 +45,12 @@ function App() {
     fn: exampleEasing.ease,
   });
   const [dynamicCount, setDynamicCount] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const [ref2, scroll2] = useScrollTo<HTMLDivElement>({
-    duration: 500,
-    offsetTop: offset,
-  });
-  const [ref5, scroll5] = useScrollTo<HTMLDivElement>({
-    duration: 500,
-    offsetTop: offset,
-  });
-  const [ref8, scroll8] = useScrollTo<HTMLDivElement>({
-    duration: 500,
-    offsetTop: offset,
-  });
+  const [ref2, scroll2] = useScrollTo<HTMLDivElement>();
+  const [ref5, scroll5] = useScrollTo<HTMLDivElement>();
+  const [ref8, scroll8] = useScrollTo<HTMLDivElement>();
 
   const handleEasingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEasing(exampleEasing[e.target.value]);
-  };
-
-  const handleOffsetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOffset(parseInt(e.target.value));
   };
 
   const handleAddDynamic = () => {
@@ -75,13 +60,13 @@ function App() {
   return (
     <>
       <div ref={ref2} className="example example--top">
-        top
+        Top
       </div>
       <div ref={ref5} className="example example--middle">
-        middle
+        Middle
       </div>
       <div ref={ref8} className="example example--bottom">
-        bottom
+        Bottom
       </div>
 
       {Array.from({ length: dynamicCount }).map((_, i) => (
@@ -114,15 +99,6 @@ function App() {
             </option>
           ))}
         </select>
-
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={offset}
-          onChange={handleOffsetChange}
-        />
-
         <button onClick={handleAddDynamic} className="control">
           Add new!
         </button>

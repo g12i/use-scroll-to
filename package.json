@@ -11,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/g12i/use-scroll-to"
   },
+  "homepage": "https://g12i.github.io/use-scroll-to/",
   "main": "./dist/use-scroll-to-2.umd.js",
   "module": "./dist/use-scroll-to-2.es.js",
   "types": "./dist/useScrollTo.d.ts",
@@ -21,9 +22,9 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && tsc --emitDeclarationOnly",
-    "serve": "vite preview"
+    "dev": "vite --config vite.demo.config.js",
+    "build:demo": "vite build --config vite.demo.config.js && gh-pages -d demo/dist",
+    "build": "vite build && tsc --emitDeclarationOnly"
   },
   "keywords": [
     "react",
@@ -42,6 +43,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "gh-pages": "^3.2.3",
     "prettier": "^2.3.2",
     "typescript": "^4.4.2",
     "vite": "^2.5.6"
