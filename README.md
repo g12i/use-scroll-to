@@ -33,7 +33,7 @@ import React from "react";
 import { useScrollTo } from "use-scroll-to-2";
 
 function App() {
-  const [ref, scroll] = useScrollTo({ auto: true });
+  const [ref] = useScrollTo({ auto: true });
 
   return (
     <div>
