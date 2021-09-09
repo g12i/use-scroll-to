@@ -1,5 +1,4 @@
 import bezier from "bezier-easing";
-import type { EasingFunction } from "bezier-easing";
 import {
   RefObject,
   useCallback,
@@ -30,7 +29,7 @@ const animationLoop = (next: () => NextState) => {
 export type AnimationOptions = {
   delay: number;
   duration: number;
-  easing: EasingFunction;
+  easing: bezier.EasingFunction;
 };
 
 const animate = (
@@ -126,5 +125,4 @@ export function useScrollTo<T extends HTMLElement>(
 }
 
 // re-export "bezier-easing" lib
-export type { EasingFunction };
 export { bezier };
