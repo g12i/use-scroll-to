@@ -5,6 +5,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/g12i/use-scroll-to"
+  },
   "main": "./dist/use-scroll-to-2.umd.js",
   "module": "./dist/use-scroll-to-2.es.js",
   "types": "./dist/useScrollTo.d.ts",
