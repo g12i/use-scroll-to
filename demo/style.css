@@ -1,0 +1,33 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Liberation Sans",
+    sans-serif;
+}
+
+.example {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example--top {
+  background: rgb(255, 235, 251);
+}
+.example--middle {
+  background: rgb(250, 255, 233);
+}
+.example--bottom {
+  background: rgb(240, 232, 255);
+}
+
+.controls {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+.control {
+  width: auto;
+}
