@@ -1,3 +1,4 @@
+import { EasingFunction } from "bezier-easing";
 import React, { useState } from "react";
 import { render } from "react-dom";
 import { bezier, useScrollTo } from "../lib/useScrollTo";
@@ -13,6 +14,7 @@ const exampleEasing = {
   easeIn: bezier(0.42, 0, 1, 1),
   easeOut: bezier(0, 0, 0.58, 1),
   easeInOut: bezier(0.42, 0, 0.58, 1),
+  weird: bezier(0.17, 0.67, 1, -0.24),
 };
 
 const getRandomInt = (min: number, max: number) => {
@@ -22,7 +24,10 @@ const getRandomInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (intMax - intMin)) + intMin;
 };
 
-const Dynamic = React.memo<{ easing: EasingState }>(({ easing }) => {
+const Dynamic = React.memo<{
+  easing: EasingState;
+  backgroundColor: string;
+}>(({ easing, backgroundColor }) => {
   const [ref] = useScrollTo<HTMLDivElement>({
     auto: true,
     duration: 500,
@@ -32,7 +37,7 @@ const Dynamic = React.memo<{ easing: EasingState }>(({ easing }) => {
   return (
     <div
       className="example example--dynamic"
-      style={{ backgroundColor: `hsl(${getRandomInt(0, 360)}, 100%, 96.1%)` }}
+      style={{ backgroundColor }}
       ref={ref}
     >
       Dynamic!
@@ -41,48 +46,61 @@ const Dynamic = React.memo<{ easing: EasingState }>(({ easing }) => {
 });
 
 function App() {
-  const [easing, setEasing] = useState<EasingState>({
-    fn: exampleEasing.ease,
+  const [easing, setEasing] = useState<EasingState>({ fn: exampleEasing.ease });
+  const [dynamicElements, setDynamicElements] = useState<
+    [number, number, number][]
+  >([]);
+  const [refTop, scrollTop] = useScrollTo<HTMLDivElement>({
+    easing: easing.fn,
   });
-  const [dynamicCount, setDynamicCount] = useState(0);
-  const [ref2, scroll2] = useScrollTo<HTMLDivElement>();
-  const [ref5, scroll5] = useScrollTo<HTMLDivElement>();
-  const [ref8, scroll8] = useScrollTo<HTMLDivElement>();
+  const [refMid, scrollMid] = useScrollTo<HTMLDivElement>({
+    easing: easing.fn,
+  });
+  const [refBottom, scrollBottom] = useScrollTo<HTMLDivElement>({
+    easing: easing.fn,
+  });
 
   const handleEasingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setEasing(exampleEasing[e.target.value]);
+    setEasing({ fn: exampleEasing[e.target.value] });
   };
 
   const handleAddDynamic = () => {
-    setDynamicCount((old) => old + 1);
+    setDynamicElements((old) => [
+      ...old,
+      [getRandomInt(0, 360), getRandomInt(99, 100), getRandomInt(95, 97)],
+    ]);
   };
 
   return (
     <>
-      <div ref={ref2} className="example example--top">
+      <div ref={refTop} className="example example--top">
         Top
       </div>
-      <div ref={ref5} className="example example--middle">
+      <div ref={refMid} className="example example--middle">
         Middle
       </div>
-      <div ref={ref8} className="example example--bottom">
+      <div ref={refBottom} className="example example--bottom">
         Bottom
       </div>
 
-      {Array.from({ length: dynamicCount }).map((_, i) => (
-        <Dynamic key={`el-${i}`} easing={easing} />
+      {dynamicElements.map(([h, s, l], i) => (
+        <Dynamic
+          key={`el-${i}`}
+          backgroundColor={`hsl(${h}, ${s}%, ${l}%)`}
+          easing={easing}
+        />
       ))}
 
       <div className="controls">
-        <button onClick={scroll2} className="control">
+        <button onClick={scrollTop} className="control">
           Top
         </button>
 
-        <button onClick={scroll5} className="control">
+        <button onClick={scrollMid} className="control">
           Middle
         </button>
 
-        <button onClick={scroll8} className="control">
+        <button onClick={scrollBottom} className="control">
           Bottom
         </button>
 
