@@ -68,9 +68,9 @@ An easing function. This expects a function returned by excellent
 For convenience it is re-exported as `bezier` in this library.
 
 ```jsx
-import { bezier, useScrollTop } from "use-scroll-to-2";
+import { bezier, useScrollTo } from "use-scroll-to-2";
 
-useScrollTop({
+useScrollTo({
   duration: 600,
   easing: bezier(0.42, 0, 0.58, 1),
 });
@@ -88,7 +88,7 @@ A top offset. This can be either a number, or a function that takes scroll
 direction and returns a number. Default: `0`.
 
 ```jsx
-useScrollTop({
+useScrollTo({
   duration: 600,
   offsetTop: (dir) => (dir === -1 ? 50 : 0), // -1 -> going up, 1 -> down
 });
@@ -100,7 +100,7 @@ A left offset. This can be either a number, or a function that takes scroll
 direction and returns a number. Default: `0`.
 
 ```jsx
-useScrollTop({
+useScrollTo({
   duration: 600,
   offsetTop: (dir) => (dir === -1 ? 50 : 0), // -1 -> going left, 1 -> right
 });
