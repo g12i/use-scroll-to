@@ -2,8 +2,8 @@ import bezier from "bezier-easing";
 import {
   RefObject,
   useCallback,
+  useEffect,
   useLayoutEffect,
-  useMemo,
   useRef,
 } from "react";
 
@@ -58,7 +58,7 @@ type HookOptions = {
   auto?: boolean;
   offsetLeft?: number | ((direction: number) => number);
   offsetTop?: number | ((direction: number) => number);
-};
+} & Partial<AnimationOptions>;
 
 function lift<T, R>(value: T | ((arg: R) => T)) {
   type FunctionType = (arg: R) => T;
@@ -68,7 +68,7 @@ function lift<T, R>(value: T | ((arg: R) => T)) {
 }
 
 export function useScrollTo<T extends HTMLElement>(
-  opts?: HookOptions & Partial<AnimationOptions>
+  opts?: HookOptions
 ): [RefObject<T>, () => void] {
   const {
     auto = false,
@@ -78,21 +78,50 @@ export function useScrollTo<T extends HTMLElement>(
     offsetLeft = 0,
     offsetTop = 0,
   } = opts ?? {};
-  const ref = useRef<T>(null);
-  const getOffsetTop = useMemo(() => lift(offsetTop), [offsetTop]);
-  const getOffsetLeft = useMemo(() => lift(offsetLeft), [offsetLeft]);
+  const elRef = useRef<T>(null);
+  const durationRef = useRef(duration);
+  const delayRef = useRef(delay);
+  const offsetTopRef = useRef(offsetTop);
+  const offsetLeftRef = useRef(offsetLeft);
+  const easingRef = useRef(easing);
+
+  useEffect(() => {
+    durationRef.current = duration;
+  }, [duration]);
+
+  useEffect(() => {
+    delayRef.current = delay;
+  }, [delay]);
+
+  useEffect(() => {
+    offsetTopRef.current = offsetTop;
+  }, [offsetTop]);
+
+  useEffect(() => {
+    offsetLeftRef.current = offsetLeft;
+  }, [offsetLeft]);
+
+  useEffect(() => {
+    easingRef.current = easing;
+  }, [easing]);
 
   const scroll = useCallback(() => {
-    if (!ref.current) {
+    if (!elRef.current) {
       return;
     }
 
+    const duration = durationRef.current;
+    const delay = delayRef.current;
+    const easing = easingRef.current;
+    const offsetTop = offsetTopRef.current;
+    const offsetLeft = offsetLeftRef.current;
+
     requestAnimationFrame(() => {
-      const { top, left } = (ref.current as T).getBoundingClientRect();
+      const { top, left } = (elRef.current as T).getBoundingClientRect();
       const startTop = window?.scrollY ?? 0;
       const startLeft = window?.scrollX ?? 0;
-      const targetTop = top - getOffsetTop(top > 0 ? 1 : -1);
-      const targetLeft = left - getOffsetLeft(top > 0 ? 1 : -1);
+      const targetTop = top - lift(offsetTop)(top > 0 ? 1 : -1);
+      const targetLeft = left - lift(offsetLeft)(top > 0 ? 1 : -1);
 
       if ("number" !== typeof duration || duration <= 0) {
         window?.scrollTo({
@@ -113,7 +142,7 @@ export function useScrollTo<T extends HTMLElement>(
         );
       }
     });
-  }, [duration, delay, easing, getOffsetLeft, getOffsetTop]);
+  }, []);
 
   useLayoutEffect(() => {
     if (auto) {
@@ -121,7 +150,7 @@ export function useScrollTo<T extends HTMLElement>(
     }
   }, [auto, scroll]);
 
-  return [ref, scroll];
+  return [elRef, scroll];
 }
 
 // re-export "bezier-easing" lib
