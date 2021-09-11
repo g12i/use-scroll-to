@@ -24,7 +24,9 @@ function App() {
   return (
     <div>
       <button onClick={scroll}>Scroll to div</button>
-      <div ref={ref}></div>
+      <div ref={ref}>
+        Window will scroll to this element, when the button is clicked.
+      </div>
     </div>
   );
 }
@@ -41,8 +43,9 @@ function App() {
 
   return (
     <div>
-      <button onClick={scroll}>Scroll to div</button>
-      <div ref={ref}></div>
+      <div ref={ref}>
+        Window will scroll to this element, as soon as it mounts.
+      </div>
     </div>
   );
 }
